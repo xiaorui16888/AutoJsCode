@@ -1,0 +1,9 @@
+alert("本脚本需要：","无障碍服务权限");auto.waitFor();
+launchApp("微信");sleep(3000);
+click("通讯录");sleep(500);
+click("公众号");sleep(500);
+while(true){
+    longClick(540,300);sleep(500);
+    click("取消关注");sleep(500);
+    click(800,1030);sleep(500);
+}

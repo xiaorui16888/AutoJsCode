@@ -1,0 +1,23 @@
+auto.waitFor();
+sleep(1000);
+while(true){
+    toast("刷新一下");
+    click(109,1976);
+    sleep(3000);
+    toast("打开新闻。");
+    click(370,469);
+    toast("现在开始自动翻页2分钟。");
+        for(a=1;a<26;a++){   
+        sleep(1000);
+        scrollUp();
+        sleep(1500);
+        scrollDown();
+        sleep(1000);
+        scrollUp();
+        sleep(1500);
+        scrollDown();
+        toast("已翻页" + a*5 + "秒");
+        }
+    back();
+    sleep(1900);
+    }

@@ -1,0 +1,12 @@
+launchApp("设置");
+desc("搜索").text("搜索系统设置项").waitFor();
+while (!click("搜索系统设置项"));
+id("miui:id/search_btn_cancel").waitFor();
+setText("反转");
+id("com.android.settings:id/settings_search_item_name").text("颜色反转").waitFor();
+while (!click("颜色反转"));
+id("android:id/title").text("颜色反转").waitFor();
+while (!click("颜色反转"));
+back();
+back();
+back();

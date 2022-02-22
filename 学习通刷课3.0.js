@@ -1,0 +1,296 @@
+/*此脚本仅适用于安卓最新版学习通app
+脚本的功能十分有限，甚至是有点low
+脚本的初衷就是自己想偷个懒
+仅完成视频观看，完成视频中的选择题
+课后习题会影响期末成绩，务必慎重
+对了，请务必在良好的网络环境下观看视频
+可按需自行修改第23行的内容
+版本：3.0
+作者：2333
+后续如果会有更新依旧可以在如下地址下载
+https://shimo.im/docs/Ytyt2B1xT5czrd9I/
+*/
+
+auto.waitFor();
+
+//启动学习通程序
+var packageName = getPackageName("学习通");
+if(!packageName){
+	toast("未安装学习通软件！");
+	exit();
+}else{
+	//输入课程信息
+	var name = rawInput("课程名称", "大学生职业发展与就业指导");
+//替换上面的【大学语文】四个字为你最近要看的课程，避免频繁输入
+	if (name.length == 0){
+		toastLog("未输入课程名");
+		exit();
+	}
+	var num = rawInput("课程章节数", "");
+	if (num.length == 0){
+		toastLog("未输入章节数");
+		exit();
+	}
+	//alert("播放《"+name+"》第"+num+"节");
+	launchPackage("com.chaoxing.mobile");
+	}
+
+//进入课程
+className("android.widget.TextView").packageName("com.chaoxing.mobile").waitFor();
+for(var i = 1;i <= 10;i++){
+var me = id("tabButton").packageName("com.chaoxing.mobile").className("android.widget.TextView").text("我");
+if (me.exists()){
+click("我");
+sleep(200);
+click("课程");
+
+//选择课程
+var lessonPic = id("ga_icon").className("android.widget.ImageView");
+if (lessonPic.findOne(3000)==null){
+    toastLog("网络状况不佳或未登录");
+    }
+	while(!click("课程"));
+	lessonPic.waitFor();
+for(var i = 1;i <= 20;i++){
+if(text(name).exists()){
+	sleep(200);
+	click(name);
+	break;
+}else{
+	scrollable(true).findOnce(1).scrollForward();
+	sleep(200);
+	}
+}
+if (text(name).findOne(1000)==null && lessonPic.exists()){
+	toastLog("未找到课程"+name);
+	exit();
+}
+
+//选择章节
+if (text("章节").findOne(3000)==null){
+	toastLog("网络状况不佳");
+	}
+text("章节").waitFor();
+click("章节");
+var unitList = id("tv_part_index");
+if (unitList.findOne(3000)==null){
+	toastLog("网络状况不佳");
+	}
+unitList.waitFor();
+for(var i = 1;i <= 20;i++){
+if(text(num).exists()){
+	click(num);
+	break;
+}else if (text("已经到底啦~(>_<)~~").className("android.widget.TextView").exists()){
+	break;
+}else{
+    scrollable(true).findOnce(1).scrollForward();
+    sleep(200);
+     }
+}
+if (text(num).findOne(1000)==null && unitList.exists()){
+	toastLog("未找到第"+num+"章节");
+	exit();
+}
+
+//播放视频
+waitForActivity("com.chaoxing.fanya.aphone.ui.chapter.KnowledgePagerActivity");
+click("视频");
+/*
+className("android.view.View").packageName("com.chaoxing.mobile").waitFor();
+sleep(2000);
+if (text("play").exists()){
+    click("play");
+}else{
+//	toastLog("未找到播放按钮");
+alert("抱歉！","未找到播放按钮，\问题无法被解决，\n脚本已停止，\n再试一次如果依旧不可以，\n请使用简版脚本。");
+exit();
+}*/
+while(!click("play"));
+sleep(500);
+
+//移动网络识别
+if (text("允许").id("btnOk").clickable().className("android.widget.Button"). exists()){
+text("允许").packageName("com.chaoxing.mobile").id("btnOk").clickable().className("android.widget.Button").click();
+toastLog("你正在使用移动网络");
+}
+sleep(1000);
+
+//线路选择
+if (id("iv_screen_paly").className("android.widget.ImageButton").exists()){
+    toastLog("网络状况不佳或当前线路不佳")
+    id("iv_screen_paly").className("android.widget.ImageButton"). click();
+    }
+toastLog("即将选择公网2");
+id("tv_quality").text("标清").className("android.widget.TextView").packageName("com.chaoxing.mobile").waitFor();
+id("tv_quality").click();
+text("公网2").waitFor();
+click("公网2");
+sleep(3000);
+if (text("重试").exists()){
+    click("重试");
+    id("tv_quality").click();
+    text("公网1").waitFor();
+    click("公网1");
+    }
+
+//循环轮选题目
+while(true){
+//判断提交按钮是否存在
+if (className("android.widget.Button").id("check_answer").text("提交").exists()){
+//判断题
+	if (id("test_tv_title").text("判断题:").exists()){
+	click("A");
+	sleep(50);
+	click("提交");
+	sleep(100);
+		if (id("tv_wrong_answer").text("回答错误").exists()){
+		sleep(50);
+		click("B");
+		sleep(50);
+		click("提交");
+		}
+	sleep(50);
+	click("继续");
+toastLog("回答完毕");
+//exit();
+	}
+
+//单选题
+	else if (id("test_tv_title").text("单选题:").exists()){
+	click("A");
+	sleep(50);
+	click("提交");
+	sleep(100);
+	if (id("tv_wrong_answer").text("回答错误").exists()){
+	click("B");
+	sleep(50);
+	click("提交");
+	sleep(100);
+		if (id("tv_wrong_answer").text("回答错误").exists()){
+		click("C");
+		sleep(50);
+		click("提交");
+		sleep(100);
+			if (id("tv_wrong_answer").text("回答错误").exists()){
+			click("D");
+			sleep(50);
+			click("提交");
+		}
+	sleep(50);
+	click("继续");
+toastLog("回答完毕");
+//exit();
+	}
+}
+}
+
+//多选题
+	else if (id("test_tv_title").text("多选题:").exists()){
+	click("D");
+	sleep(50);
+	click("C");
+	sleep(50);
+	click("B");
+	sleep(50);
+	click("A");
+	sleep(50);
+	click("提交");
+	sleep(100);
+	//ABCD
+	if (text("回答错误").exists()){
+	click("D");
+	sleep(50);
+	click("提交");
+	sleep(100);
+	//ABC
+		if (text("回答错误").exists()){
+			click("C");
+			sleep(50);
+			click("提交");
+			sleep(100);
+			//AB
+			if (text("回答错误").exists()){
+				click("D");
+				sleep(50);
+				click("提交");
+				sleep(100);
+				//ABD
+				if (text("回答错误").exists()){
+					click("B");
+					sleep(50);
+					click("提交");
+					sleep(100);
+					//AD
+					if (text("回答错误").exists()){
+						click("C");
+						sleep(50);
+						click("提交");
+						sleep(100);
+						//ACD
+						if (text("回答错误").exists()){
+							click("A");
+							sleep(50);
+							click("提交");
+							sleep(100);
+							//CD
+							if (text("回答错误").exists()){
+								click("D");
+								sleep(50);
+								click("A");
+								sleep(50);
+								click("提交");
+								sleep(100);
+								//AC
+								if (text("回答错误").exists()){
+									click("A");
+									sleep(50);
+									click("B");
+									sleep(50);
+									click("提交");
+									sleep(100);
+									//BC
+									if (text("回答错误").exists()){
+										click("D");
+										sleep(50);
+										click("提交");
+										sleep(100);
+										//BCD
+										if (text("回答错误").exists()){
+											click("C");
+											sleep(50);
+											click("提交");
+											sleep(100);
+											//BD
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+sleep(5000);
+id("check_right").findOne().click();
+toastLog("回答完毕");
+//exit();
+}
+}
+
+//离开视频播放页即停止脚本
+else if (currentActivity() != ("com.chaoxing.fanya.aphone.ui.video.VideoPlayerActicity")){
+    toastLog("脚本已停止");
+    exit();
+    }
+}
+}else{
+	if (currentPackage()==("com.chaoxing.mobile")){
+		back()
+		sleep(1000)
+	}else{
+		launchPackage("com.chaoxing.mobile");	
+	}
+	}
+}

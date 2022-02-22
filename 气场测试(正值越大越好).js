@@ -1,0 +1,14 @@
+openConsole();
+a=[0,0,0,0,0,0,0,0,0,0,0];c=0;
+while(true){
+for(i=0;i<=10;i++){
+d=random(-1,1);
+a[random(0,10)]+=d;c+=d;}
+b="";
+for(i=0;i<=10;i++){
+b=b+a[i]+"\n";
+}
+clearConsole();
+console.info(c+"\n"+b);
+sleep(100);
+}

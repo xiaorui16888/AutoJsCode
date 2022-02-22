@@ -1,0 +1,45 @@
+"ui";
+ui.layout(
+<frame>
+<relative
+    layout_width="match_parent"
+    layout_height="match_parent"
+    background="#ff0000"
+    >
+    <button
+        id="@+id/button_center"
+        layout_width="wrap_content"
+        layout_height="wrap_content"
+        layout_centerInParent="true"
+        text="center"/>
+    <button
+        id="@+id/button_above"
+        layout_width="wrap_content"
+        layout_height="wrap_content"
+        layout_above="@+id/button_center"
+        layout_centerInParent="true"
+        text="above"/>
+    <button
+        id="@+id/button_below"
+        layout_width="wrap_content"
+        layout_height="wrap_content"
+        layout_below="@+id/button_center"
+        layout_centerInParent="true"
+        text="below"/>
+    <button
+        id="@+id/button_left"
+        layout_width="wrap_content"
+        layout_height="wrap_content"
+        layout_toLeftOf="@+id/button_center"
+        layout_centerVertical="true"
+        text="left"/>
+    <button
+        id="@+id/button_right"
+        layout_width="wrap_content"
+        layout_height="wrap_content"
+        layout_toRightOf="@+id/button_center"
+        layout_centerVertical="true"
+        text="right"/>
+</relative>
+</frame>
+);
